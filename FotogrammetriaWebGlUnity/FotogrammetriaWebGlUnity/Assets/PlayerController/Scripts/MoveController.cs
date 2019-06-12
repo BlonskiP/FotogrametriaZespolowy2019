@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MoveController : MonoBehaviour
 {
@@ -23,6 +24,7 @@ public class MoveController : MonoBehaviour
     void Update()
     {
         PlayerMovement();
+        PlayerExit();
     }
     private void PlayerMovement()
     {
@@ -34,5 +36,14 @@ public class MoveController : MonoBehaviour
 
         charController.SimpleMove(forwardMovement + rightMovement);
 
+    }
+
+    private void PlayerExit()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Debug.Log("Opening Menu from player");
+            SceneManager.LoadScene("Assets/Scenes/Menu.Unity", LoadSceneMode.Single);
+        }
     }
 }
