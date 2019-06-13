@@ -43,6 +43,7 @@ public class MoveController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Debug.Log("Opening Menu from player");
+            Cursor.lockState = CursorLockMode.None;
             SceneManager.LoadScene("Assets/Scenes/Menu.Unity", LoadSceneMode.Single);
         }
     }
