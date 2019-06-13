@@ -9,6 +9,8 @@ public class PlayerCameraController : MonoBehaviour
 
     [SerializeField] private float mouseSensitivity;
     [SerializeField] private Transform playerBody;
+    public GameObject textMessage;
+    public GameObject background;
     public Interactive focus;
     public Camera camera;
     private float xAxisClamp;
@@ -17,7 +19,7 @@ public class PlayerCameraController : MonoBehaviour
         camera = GetComponent<Camera>();
         LockCursor();
         xAxisClamp = 0.0f;
-    
+        background.SetActive(false);
     }
 
     private void LockCursor()
@@ -84,6 +86,7 @@ public class PlayerCameraController : MonoBehaviour
             float distance = Vector3.Distance(transform.position, focus.transform.position);
             if (focus.InteractionRange < distance)
             {
+                focus.outOfRange(this);
                 focus = null;
             };
         }
@@ -100,7 +103,7 @@ public class PlayerCameraController : MonoBehaviour
         {
             if(focus!=null)
             {
-                focus.Interact();
+                focus.Interact(this);
             }
         }
     }

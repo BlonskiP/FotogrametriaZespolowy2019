@@ -17,7 +17,7 @@ public class ExampleInteractiveObject : Interactive
         
     }
 
-    protected override void Interaction()
+    protected override void Interaction(PlayerCameraController player)
     {
         Debug.Log("Object Interacted");
         Renderer rend = GetComponent<Renderer>();
@@ -28,4 +28,9 @@ public class ExampleInteractiveObject : Interactive
         rend.material.SetColor("_Color", Color.red);
     }
 
+    public override void outOfRange(PlayerCameraController player)
+    {
+        Renderer rend = GetComponent<Renderer>();
+        rend.material.SetColor("_Color", Color.white);
+    }
 }
