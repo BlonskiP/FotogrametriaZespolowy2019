@@ -6,13 +6,18 @@ using UnityEngine;
 public class PlayerCameraController : MonoBehaviour
 {
     [SerializeField] private string mouseXInputName, mouseYInputName;
+
     [SerializeField] private float mouseSensitivity;
     [SerializeField] private Transform playerBody;
+    public Interactive focus;
+    public Camera camera;
     private float xAxisClamp;
     private void Awake()
     {
+        camera = GetComponent<Camera>();
         LockCursor();
         xAxisClamp = 0.0f;
+    
     }
 
     private void LockCursor()
@@ -25,6 +30,8 @@ public class PlayerCameraController : MonoBehaviour
     void Update()
     {
         CameraRotation();
+        CheckInteractiveObjects();
+        InteractWithTarget();
     }
 
     private void CameraRotation()
@@ -55,5 +62,46 @@ public class PlayerCameraController : MonoBehaviour
         Vector3 eulerRotation = transform.eulerAngles;
         eulerRotation.x = value;
         transform.eulerAngles = eulerRotation;
+    }
+    private void CheckInteractiveObjects()
+    {
+        RaycastHit hit;
+        Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+        if(Physics.Raycast(ray,out hit))
+        {
+            Interactive interactiveObject = hit.collider.GetComponent<Interactive>();
+            if(interactiveObject != null && interactiveObject.InteractionRange>hit.distance)
+            {
+                SetTarget(interactiveObject);
+                Debug.Log("New InteractiveTarget");
+            }
+           
+                
+
+        }
+        if (focus != null)
+        {
+            float distance = Vector3.Distance(transform.position, focus.transform.position);
+            if (focus.InteractionRange < distance)
+            {
+                focus = null;
+            };
+        }
+
+    }
+
+    private void SetTarget(Interactive interactiveObject)
+    {
+        focus = interactiveObject;
+    }
+    public void InteractWithTarget()
+    {
+        if(Input.GetButtonDown("Interact"))
+        {
+            if(focus!=null)
+            {
+                focus.Interact();
+            }
+        }
     }
 }
