@@ -5,3 +5,4 @@ Projekt zespołowy tworzony w 2019, zlecony przez Comarch. Jego celem było wyko
 1. Metashape
 2. Blender
 3. Unity
+4. Git LFS
